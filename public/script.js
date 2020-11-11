@@ -2,7 +2,7 @@ const socket = io('/')
 const videoGrid = document.getElementById('video-grid')
 const myPeer = new Peer(undefined, {
   host: 'https://nugi-peerjs.herokuapp.com',
-  port: '80'
+  port: '9000'
 })
 
 const myVideo = document.createElement('video')
