@@ -1,4 +1,4 @@
-const socket = io(":" + SOCKET_PORT + "/")
+const socket = io(SOCKET_HOST + ":" + SOCKET_PORT)
 const videoGrid = document.getElementById('video-grid')
 const myPeer = new Peer(undefined, {
   host: PEER_HOST,
@@ -39,8 +39,8 @@ socket.on('user-disconnected', userId => {
 })
 
 myPeer.on('open', id => {
-    console.log('open peers')
-    socket.emit('join-room', ROOM_ID, id)
+  console.log('open peers')
+  socket.emit('join-room', ROOM_ID, id)
 })
 
 function connectToNewUser(userId, stream) {
@@ -65,6 +65,6 @@ function addVideoStream(video, stream) {
   video.addEventListener('loadedmetadata', () => {
     video.play()
   })
-  
+
   videoGrid.append(video)
 }
