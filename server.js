@@ -22,20 +22,23 @@ app.get('/:room', (req, res) => {
 })
 
 io.on('connection', socket => {
-  console.log("came in")
+    console.log("came in")
 
-  socket.on('join-room', (roomId, userId) => {
-    console.log("joining room")
-    console.log(roomId + " -- " + userId)
+    socket.on('join-room', (roomId, userId) => {
+      console.log("joining room")
+      console.log(roomId + " -- " + userId)
 
-    socket.to(roomId).broadcast.emit('user-connected', userId)
+      socket.to(roomId).broadcast.emit('user-connected', userId)
 
-    socket.on('disconnect', () => {
-      console.log("disconnect")
-      socket.to(roomId).broadcast.emit('user-disconnected', userId)
+      socket.on('disconnect', () => {
+        console.log("disconnect")
+        socket.to(roomId).broadcast.emit('user-disconnected', userId)
+      })
     })
   })
-})
+  .on('error', e => {
+    console.log(e)
+  })
 
 const port = process.env.PORT || 3000
 console.log('start in port ' + port)
