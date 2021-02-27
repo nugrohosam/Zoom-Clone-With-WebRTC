@@ -17,7 +17,8 @@ app.get('/:room', (req, res) => {
   res.render('room', {
     roomId: req.params.room,
     peerHost: process.env.PEER_HOST,
-    peerPort: process.env.PEER_PORT
+    peerPort: process.env.PEER_PORT,
+    socketPort: process.env.SOCKET_PORT
   })
 })
 
