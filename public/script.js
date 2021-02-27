@@ -1,5 +1,4 @@
 const socket = io('/')
-
 const videoGrid = document.getElementById('video-grid')
 const myPeer = new Peer(undefined, {
   host: PEER_HOST,
@@ -8,6 +7,7 @@ const myPeer = new Peer(undefined, {
 
 const myVideo = document.createElement('video')
 myVideo.muted = true
+console.log('start video call')
 
 const peers = {}
 navigator.mediaDevices.getUserMedia({
