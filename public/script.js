@@ -1,4 +1,4 @@
-const socket = io("ws://" + SOCKET_HOST + ":" + SOCKET_PORT)
+const socket = io("/")
 const videoGrid = document.getElementById('video-grid')
 const myPeer = new Peer(undefined, {
   host: PEER_HOST,
