@@ -5,6 +5,7 @@ const socket = new io.connect(PROVIDER_SOCKET)
 const videoGrid = document.getElementById('video-grid')
 const myPeer = new Peer()
 const myVideo = document.createElement('video')
+const hostname = window.location.hostname
 myVideo.muted = true
 
 // contract event
