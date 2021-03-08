@@ -3,7 +3,6 @@ require('dotenv').config()
 const express = require('express')
 const app = express()
 const server = require('http').Server(app)
-const io = require('socket.io')(server)
 const {
   v4: uuidV4
 } = require('uuid')
@@ -20,23 +19,10 @@ app.get('/:room', (req, res) => {
     roomId: req.params.room,
     host: process.env.HOST,
     peerHost: process.env.PEER_HOST,
-    peerPort: process.env.PEER_PORT
+    peerHost: process.env.PEER_HOST,
+    providerSocket: process.env.PROVIDER_SOCKET
   })
 })
-
-io.on('connection', socket => {
-  socket.on('join-room', (roomId, userId) => {
-    socket.join(roomId)
-    socket.to(roomId).broadcast.emit('user-connected', userId)
-    socket.on('disconnect', () => {
-      console.log("disconnect")
-      socket.to(roomId).broadcast.emit('user-disconnected', userId)
-    })
-  })
-})
-  .on('error', e => {
-    console.log(e)
-  })
 
 const port = process.env.PORT || 4000
 console.log('start in port ' + port)

@@ -1,55 +1,97 @@
-const socket = new io.connect()
+const socket = new io.connect(PROVIDER_SOCKET)
 const videoGrid = document.getElementById('video-grid')
 const myPeer = new Peer()
 const myVideo = document.createElement('video')
 myVideo.muted = true
+
+const hostname = window.location.hostname || `localhost`
+const completeHostname = hostname + ":" + window.location.port
+var socket = new io.connect(completeHostname)
+
+const TYPE_FUNCTION = "TYPE_FUNCTION"
+const TYPE_MESSAGE = "TYPE_MESSAGE"
+
+// contract event
+const roomConn = `connection-with-${hostname}`
+
+// default data event require join room
+const joinRoom = `${roomConn}-join-room`
+const privateRoomConn = `${roomConn}-private-room`
+const disconnectRoom = `${roomConn}-disconnect`
+
+const userConnected = 'user-connected'
+
+function isJson(str) {
+  try {
+    JSON.parse(str);
+  } catch (e) {
+    return false;
+  }
+  return true;
+}
 
 const peers = {}
 navigator.mediaDevices.getUserMedia({
   video: true,
   audio: true
 }).then(stream => {
-  console.log('initial')
   addVideoStream(myVideo, stream)
 
   myPeer.on('call', call => {
-    console.log('call started')
     call.answer(stream)
     const video = document.createElement('video')
     call.on('stream', userVideoStream => {
-      console.log('call stream started')
       addVideoStream(video, userVideoStream)
     })
   })
 
-  socket.on('user-connected', userId => {
-    console.log('user connected')
-    connectToNewUser(userId, stream)
+  socket.on(userConnected, message => {
+    if (isJson(message)) {
+      const data = JSON.stringify(message)
+      const userId = data.message.token
+      connectToNewUser(userId, stream)
+    } else {
+      console.log(message)
+    }
   })
-  
+
 }).catch(e => {
   console.log(e)
 })
 
-socket.on('user-disconnected', userId => {
-  console.log('user disconnect')
-  if (peers[userId]) peers[userId].close()
+socket.on(disconnectRoom, message => {
+  if (isJson(message)) {
+    const data = JSON.stringify(message)
+    const userId = data.message.token
+    if (peers[userId]) peers[userId].close()
+  } else {
+    console.log(message)
+  }
 })
 
 myPeer.on('open', id => {
-  console.log('open peers')
-  console.log(ROOM_ID)
-  socket.emit('join-room', ROOM_ID, id)
+  socket.emit(joinRoom, JSON.stringify({ room_id: ROOM_ID, token: id }))
+  const message = {
+    token: id,
+    data: {
+      name: userConnected,
+      message: {
+        token: id
+      }
+    }
+  }
+
+  socket.emit(privateRoomConn, JSON.stringify(message))
 })
 
 function connectToNewUser(userId, stream) {
-  console.log('connect to new user')
   const call = myPeer.call(userId, stream)
   const video = document.createElement('video')
+
   call.on('stream', userVideoStream => {
-    console.log('stream start')
     addVideoStream(video, userVideoStream)
   })
+
   call.on('close', () => {
     console.log('stream close')
     video.remove()
@@ -59,7 +101,6 @@ function connectToNewUser(userId, stream) {
 }
 
 function addVideoStream(video, stream) {
-  console.log('add video stream to DOM')
   video.srcObject = stream
   video.addEventListener('loadedmetadata', () => {
     video.play()
