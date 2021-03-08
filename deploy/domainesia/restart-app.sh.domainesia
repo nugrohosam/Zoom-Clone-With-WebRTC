@@ -1,0 +1,10 @@
+#!/bin/bash
+
+if [ ! -z "$(cat ./pid)" ]
+then
+        kill $(cat ./pid)
+fi
+
+npm install
+nohup npm start > runing.log 2>&1 &
+echo $! > pid

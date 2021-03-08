@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const express = require('express')
 const app = express()
 const server = require('http').Server(app)
@@ -40,6 +42,6 @@ io.on('connection', socket => {
     console.log(e)
   })
 
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 4000
 console.log('start in port ' + port)
 server.listen(port)
