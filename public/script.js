@@ -4,10 +4,6 @@ const myPeer = new Peer()
 const myVideo = document.createElement('video')
 myVideo.muted = true
 
-const hostname = window.location.hostname || `localhost`
-const completeHostname = hostname + ":" + window.location.port
-var socket = new io.connect(completeHostname)
-
 const TYPE_FUNCTION = "TYPE_FUNCTION"
 const TYPE_MESSAGE = "TYPE_MESSAGE"
 
