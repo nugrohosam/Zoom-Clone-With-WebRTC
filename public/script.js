@@ -1,6 +1,11 @@
 const socket = new io.connect()
 const videoGrid = document.getElementById('video-grid')
-const myPeer = new Peer(undefined, {
+
+function random_id() {
+  return Math.random().toString(36).replace('0.', '');
+}
+
+const myPeer = new Peer(random_id(), {
   host: PEER_HOST,
   port: PEER_PORT,
   secure: true
@@ -31,7 +36,7 @@ navigator.mediaDevices.getUserMedia({
     console.log('user connected')
     connectToNewUser(userId, stream)
   })
-  
+
 }).catch(e => {
   console.log(e)
 })
