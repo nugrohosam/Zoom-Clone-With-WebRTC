@@ -17,10 +17,10 @@ app.get('/', (req, res) => {
 app.get('/:room', (req, res) => {
   res.render('room', {
     roomId: req.params.room,
-    host: process.env.HOST,
-    peerHost: process.env.PEER_HOST,
-    peerHost: process.env.PEER_HOST,
-    providerSocket: process.env.PROVIDER_SOCKET
+    host: process.env.HOST || "localhost",
+    peerHost: process.env.PEER_HOST || 3000,
+    peerHost: process.env.PEER_HOST || "localhost",
+    providerSocket: process.env.PROVIDER_SOCKET || "socket.nugrohosamiyono.com"
   })
 })
 
