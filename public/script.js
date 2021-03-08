@@ -1,11 +1,11 @@
+const TYPE_FUNCTION = "TYPE_FUNCTION"
+const TYPE_MESSAGE = "TYPE_MESSAGE"
+
 const socket = new io.connect(PROVIDER_SOCKET)
 const videoGrid = document.getElementById('video-grid')
 const myPeer = new Peer()
 const myVideo = document.createElement('video')
 myVideo.muted = true
-
-const TYPE_FUNCTION = "TYPE_FUNCTION"
-const TYPE_MESSAGE = "TYPE_MESSAGE"
 
 // contract event
 const roomConn = `connection-with-${hostname}`
