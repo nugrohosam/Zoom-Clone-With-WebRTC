@@ -1,7 +1,10 @@
 const TYPE_FUNCTION = "TYPE_FUNCTION"
 const TYPE_MESSAGE = "TYPE_MESSAGE"
 
-const socket = new io.connect(PROVIDER_SOCKET)
+const socket = new io.connect(PROVIDER_SOCKET_HOST + ":" + PROVIDER_SOCKET_PORT, {
+  transports: ['polling']
+})
+
 const videoGrid = document.getElementById('video-grid')
 const myPeer = new Peer()
 const myVideo = document.createElement('video')

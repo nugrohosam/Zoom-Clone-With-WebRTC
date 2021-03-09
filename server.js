@@ -6,6 +6,7 @@ const server = require('http').Server(app)
 const {
   v4: uuidV4
 } = require('uuid')
+const port = process.env.PORT || Math.floor(Math.random() * 50000)
 
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
@@ -20,10 +21,10 @@ app.get('/:room', (req, res) => {
     host: process.env.HOST || "localhost",
     peerPort: process.env.PEER_PORT || 3000,
     peerHost: process.env.PEER_HOST || "localhost",
-    providerSocket: process.env.PROVIDER_SOCKET || "socket.nugrohosamiyono.com"
+    providerSocketHost: process.env.PROVIDER_SOCKET_HOST || "https://socket.nugrohosamiyono.com",
+    providerSocketPort: process.env.PROVIDER_SOCKET_PORT || 443
   })
 })
 
-const port = process.env.PORT || 4000
 console.log('start in port ' + port)
 server.listen(port)

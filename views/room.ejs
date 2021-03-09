@@ -10,13 +10,12 @@
     const HOST = "<%= host %>"
     const PEER_HOST = "<%= peerHost %>"
     const PEER_PORT = "<%= peerPort %>"
-    const PROVIDER_SOCKET = "<%= providerSocket %>"
+    const PROVIDER_SOCKET_HOST = "<%= providerSocketHost %>"
+    const PROVIDER_SOCKET_PORT = "<%= providerSocketPort %>"
   </script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.3.1/peerjs.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.2/socket.io.js"
-    integrity="sha512-YybopSVjZU0fe8TY4YDuQbP5bhwpGBE/T6eBUEZ0usM72IWBfWrgVI13qfX4V2A/W7Hdqnm7PIOYOwP9YHnICw=="
-    crossorigin="anonymous"></script>
-  <script src="connect-to-peer.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.2/socket.io.js"></script>
+  <script src="connect-with-peer.js" defer></script>
   <title>Document</title>
   <style>
     #video-grid {
